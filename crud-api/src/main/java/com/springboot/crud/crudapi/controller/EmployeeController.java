@@ -11,47 +11,47 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
 
 import com.springboot.crud.crudapi.entity.Employee;
 import com.springboot.crud.crudapi.service.EmployeeService;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/employee")
 public class EmployeeController {
 
 	@Autowired
 	private EmployeeService employeeService;
 	
-	@GetMapping("/employee")
-	public List<Employee> get() {
-		return employeeService.get();
+	@GetMapping
+	public ResponseEntity<List<Employee>> get() {
+		List<Employee> employees = employeeService.get();
+		if(employees.isEmpty()) {
+			return ResponseEntity.noContent().build();
+		}
+		return ResponseEntity.ok(employees);
 	}
 	
-	@PostMapping("/employee")
-	public Employee save(@RequestBody Employee employeeObj) {
+	@PostMapping
+	@PutMapping
+	public ResponseEntity<Employee> save(@RequestBody Employee employeeObj) {
 		employeeService.save(employeeObj);
-		return employeeObj;
+		return ResponseEntity.ok(employeeObj);
 	}
 	
-	@GetMapping("/employee/{id}")
-	public Employee get(@PathVariable int id) {
+	@GetMapping("/{id}")
+	public ResponseEntity<Employee> get(@PathVariable int id) {
 		Employee employeeObj = employeeService.get(id);
 		if(employeeObj == null) {
-			throw new RuntimeException("Employee with id: " + id + " is not found");
+			return ResponseEntity.noContent().build();
 		}
-		return employeeObj;
+		return ResponseEntity.ok(employeeObj);
 	}
 	
-	@DeleteMapping("/employee/{id}")
-	public String delete(@PathVariable int id) {
+	@DeleteMapping("/{id}")
+	public ResponseEntity<String> delete(@PathVariable int id) {
 		employeeService.delete(id);
-		return "Employee has been deleted with id: " + id;
-	}
-	
-	@PutMapping("/employee")
-	public Employee update(@RequestBody Employee employeeObj) {
-		employeeService.save(employeeObj);
-		return employeeObj;
+		return ResponseEntity.ok("Employee has been deleted with id: " + id);
 	}
 	
 }
