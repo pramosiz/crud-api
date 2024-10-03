@@ -1,2 +1,2 @@
-# Exemple of CRUD Hibernate component 
+# Exemple of CRUD Hibernate Spring component 
  Using DAOs elements with old structure
