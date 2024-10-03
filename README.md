@@ -1,3 +1,4 @@
-# Exemple of CRUD Hibernate Spring component 
- - DAOs elements with old structure
- - Hibernate
+# Exemple of CRUD Hibernate Spring (old technologies) 
+- Layered Architecture 
+- DAO
+- Hibernate
